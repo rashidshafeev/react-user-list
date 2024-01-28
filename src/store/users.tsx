@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4, validate } from 'uuid';
 
 export interface BlogUserExternal {
     id: number,
@@ -43,7 +43,7 @@ interface usersState {
     isLoading: boolean,
     error: boolean,
     addIsLoading: boolean,
-    addError: boolean,
+    addError: string,
 }
 
 const initialState: usersState = {
@@ -51,7 +51,7 @@ const initialState: usersState = {
     isLoading: false,
     error: false,
     addIsLoading: false,
-    addError: false,
+    addError: '',
 } 
 
 export const usersSlice = createSlice({
@@ -80,9 +80,13 @@ export const usersSlice = createSlice({
       state.isLoading = false
       state.error = true
     },
+    // addUserValidate: (state, action: PayloadAction<{name: string, username: string, email: string}>) => {
+    //   console.log("validate")
+    //   console.log(action.payload)
+    //     usersSlice.caseReducers.addUser(state, action)
+    // },
     addUser: (state, action: PayloadAction<{name: string, username: string, email: string}>) => {
       state.addIsLoading = true
-      
       },
     addUserSuccess: (state, action: PayloadAction<{name: string, username: string, email: string}>) => {
       state.users.push({
@@ -92,9 +96,9 @@ export const usersSlice = createSlice({
       })
       state.addIsLoading = false
     },
-    addUserFail: (state) => {
+    addUserFail: (state, action: PayloadAction<string>) => {
       state.addIsLoading = false
-      state.error = true
+      state.addError = action.payload
     },
     deleteUser: (state, action: PayloadAction<string>) => {
       console.log(action.payload)

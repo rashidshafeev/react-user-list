@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
-
-import './UserList.css'
-
 import { RootState } from '../store/index';
 
 import { BlogUser, getUserFetch } from '../store/users';
@@ -37,7 +34,7 @@ function UserList(props : UserListProps) {
       {
         props.users.map((user : BlogUser) => {
           return (
-            <UserCard user={user}></UserCard>
+            <UserCard user={user} key={user.id}></UserCard>
           )
         })
       }

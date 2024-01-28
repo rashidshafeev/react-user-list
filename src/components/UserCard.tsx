@@ -2,7 +2,7 @@ import React from 'react'
 import { BlogUser, deleteUser } from '../store/users';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Avatar, CardHeader, Divider, Grid, colors, CardContent, Card, Stack, Typography } from '@mui/material';
+import { Avatar, CardHeader, Divider, Grid, colors, CardContent, Card, Stack, Typography, Tooltip } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import LinkIcon from '@mui/icons-material/Link';
 
@@ -47,6 +47,8 @@ function UserCard(props: UserCardProps) {
 
 
             <Card>
+                <Tooltip title="Кликните чтобы удалить пользователя" placement="top">
+                    <div>
                 <CardHeader
                     onClick={deleteUserHandler}
                     avatar={
@@ -58,6 +60,9 @@ function UserCard(props: UserCardProps) {
                 >
 
                 </CardHeader>
+                </div>
+                </Tooltip>
+                
 
                 <Divider />
                 <CardContent>
