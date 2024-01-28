@@ -4,7 +4,6 @@ import { delay, put, takeEvery, select } from "redux-saga/effects";
 import {
   getUserSuccess,
   getUserFail,
-  addUser,
   addUserSuccess,
   addUserFail,
 } from "../users";
@@ -25,10 +24,10 @@ function* workGetUserFetch(): any {
       if (
         usersStore.find(
           (u: BlogUser) =>
-            u.username.toLowerCase() == user.username.toLowerCase(),
+            u.username.toLowerCase() === user.username.toLowerCase(),
         ) ||
         usersStore.find(
-          (u: BlogUser) => u.email.toLowerCase() == user.email.toLowerCase(),
+          (u: BlogUser) => u.email.toLowerCase() === user.email.toLowerCase(),
         )
       ) {
         errorMessage =
@@ -53,7 +52,7 @@ function* workAddUser(
   if (
     users.find(
       (user: BlogUser) =>
-        user.username.toLowerCase() == action.payload.username.toLowerCase(),
+        user.username.toLowerCase() === action.payload.username.toLowerCase(),
     )
   ) {
     console.log("ошибка юзернейм");
@@ -61,7 +60,7 @@ function* workAddUser(
   } else if (
     users.find(
       (user: BlogUser) =>
-        user.email.toLowerCase() == action.payload.email.toLowerCase(),
+        user.email.toLowerCase() === action.payload.email.toLowerCase(),
     )
   ) {
     console.log("ошибка почта");

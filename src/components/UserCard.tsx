@@ -41,12 +41,6 @@ function UserCard(props: UserCardProps) {
 
     return color;
   }
-  const colorsArray = [
-    colors.red[500],
-    colors.green[500],
-    colors.blue[500],
-    colors.cyan[500],
-  ];
 
   const dispatch = useDispatch();
 

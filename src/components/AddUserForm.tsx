@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Formik,
-  FormikProps,
   Form,
   Field,
   ErrorMessage,
@@ -13,7 +12,7 @@ import { RootState } from "../store/index";
 import "./AddUserForm.css";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, clearAddError } from "../store/users";
+import { addUser } from "../store/users";
 import {
   Card,
   Typography,
