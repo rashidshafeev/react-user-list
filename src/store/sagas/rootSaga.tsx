@@ -1,12 +1,9 @@
-import { all } from 'redux-saga/effects'
+import { all } from "redux-saga/effects";
 
-import usersSaga from './usersSaga'
-
+import usersSaga from "./usersSaga";
 
 function* rootSaga() {
-    yield all([
-        usersSaga()
-    ])
+  yield all([usersSaga()]);
 }
 
-export default rootSaga
+export default rootSaga;
