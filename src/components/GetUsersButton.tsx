@@ -1,14 +1,14 @@
 import React from 'react'
 import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserFetch } from '../store/users';
 
 import { RootState } from '../store/index';
 
-function RefreshButton() {
+function GetUsersButton() {
 
 const dispatch = useDispatch()
 
@@ -20,11 +20,11 @@ const isLoading : boolean = useSelector((state: RootState) => state.users.isLoad
 
   return (
     <>
-    {!isLoading && <Button variant="contained" onClick={refreshHandler} startIcon={<AutorenewIcon/>}>ОБНОВИТЬ СПИСОК</Button>}   
-    {isLoading && <LoadingButton loading  variant="contained" >ОБНОВИТЬ СПИСОК</LoadingButton>}   
+    {!isLoading && <Button variant="contained" onClick={refreshHandler} startIcon={<CloudDownloadIcon/>}>ЗАГРУЗИТЬ С СЕРВЕРА</Button>}   
+    {isLoading && <LoadingButton loading  variant="contained" >ЗАГРУЗИТЬ С СЕРВЕРА</LoadingButton>}   
     </>
     
   )
 }
 
-export default RefreshButton
+export default GetUsersButton

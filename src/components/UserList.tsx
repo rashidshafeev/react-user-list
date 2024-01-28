@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/index';
 
 import { BlogUser, getUserFetch } from '../store/users';
-import RefreshButton from './RefreshButton';
+import GetUsersButton from './GetUsersButton';
 import UserCard from './UserCard';
 import { Grid, Stack, Typography } from '@mui/material';
+import GetUsersErrorMessage from './GetUsersErrorMessage';
 
 
 interface UserListProps {
@@ -19,7 +20,7 @@ interface UserListProps {
 function UserList(props : UserListProps) {
 
   return (
-    <div>
+    <>
       <Stack
       margin="40px 0 20px 0"
       direction="row"
@@ -27,9 +28,9 @@ function UserList(props : UserListProps) {
         <Typography variant="h3">
         Список пользователей
         </Typography>
-      <RefreshButton></RefreshButton>
+      <GetUsersButton/>
       </Stack>
-      
+      <GetUsersErrorMessage/>
       <Grid container spacing={2}>
       {
         props.users.map((user : BlogUser) => {
@@ -42,7 +43,7 @@ function UserList(props : UserListProps) {
       
       
      
-    </div>
+    </>
 
   )
 }

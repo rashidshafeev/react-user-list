@@ -6,12 +6,12 @@ import { RootState } from '../store/index';
 import './AddUserForm.css'
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../store/users';
+import { addUser, clearAddError } from '../store/users';
 import { Card, Typography, Grid, Stack, CardContent, CardHeader, Divider,Alert } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import LoadingButton from '@mui/lab/LoadingButton';
-
 import * as Yup from 'yup';
+import AddUserErrorMessage from './AddUserErrorMessage';
 
 interface Values {
   name: string;
@@ -35,6 +35,7 @@ function AddUserForm() {
 
   const dispatch = useDispatch()
   const addIsLoading: boolean = useSelector((state: RootState) => state.users.addIsLoading);
+  
 
   return (
     <>
@@ -69,6 +70,7 @@ function AddUserForm() {
 
               </CardHeader>
               <Divider></Divider>
+              <AddUserErrorMessage/>
               <CardContent>
                 <Form>
                   <Stack
@@ -78,11 +80,11 @@ function AddUserForm() {
                     </Typography>
                     <label htmlFor="name">Имя пользователя</label>
                     <Field className="form-input" id="name" name="name" placeholder="Ваше имя" />
-                    <ErrorMessage name="name" render={msg => <Alert severity="warning">{msg}</Alert>}/>
+                    <ErrorMessage name="name" render={msg => <Alert severity="warning" >{msg}</Alert>}/>
 
                     <label htmlFor="username">Юзернейм</label>
                     <Field className="form-input" id="username" name="username" placeholder="Имя пользователя" />
-                    <ErrorMessage name="username" render={msg => <Alert severity="warning">{msg}</Alert>}/>
+                    <ErrorMessage name="username" render={msg => <Alert severity="warning" >{msg}</Alert>}/>
                     <label htmlFor="email">Email</label>
                     <Field
                       className="form-input"
@@ -91,7 +93,7 @@ function AddUserForm() {
                       placeholder="john@acme.com"
                       type="email"
                     />
-                    <ErrorMessage name="email" render={msg => <Alert severity="warning">{msg}</Alert>}/>
+                    <ErrorMessage name="email" render={msg => <Alert severity="warning" >{msg}</Alert>}/>
 
                     {!addIsLoading && <Button size="large" variant="contained" color="success" type="submit" sx={{
                       width: "60%", margin: "20px 0 0 0", alignSelf: "flex-end"
@@ -107,6 +109,7 @@ function AddUserForm() {
           </Grid>
         </Grid>
       </Formik>
+
     </>
   )
 }

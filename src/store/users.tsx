@@ -41,7 +41,7 @@ export interface BlogUserExternal {
 interface usersState {
     users: BlogUser[],
     isLoading: boolean,
-    error: boolean,
+    error: string,
     addIsLoading: boolean,
     addError: string,
 }
@@ -49,7 +49,7 @@ interface usersState {
 const initialState: usersState = {
     users: [],
     isLoading: false,
-    error: false,
+    error: '',
     addIsLoading: false,
     addError: '',
 } 
@@ -76,15 +76,13 @@ export const usersSlice = createSlice({
       })
       state.isLoading = false
     },
-    getUserFail: (state) => {
+    getUserFail: (state, action: PayloadAction<string>) => {
       state.isLoading = false
-      state.error = true
+      state.error = action.payload
     },
-    // addUserValidate: (state, action: PayloadAction<{name: string, username: string, email: string}>) => {
-    //   console.log("validate")
-    //   console.log(action.payload)
-    //     usersSlice.caseReducers.addUser(state, action)
-    // },
+    clearError: (state) => {
+      state.error = ""
+    },
     addUser: (state, action: PayloadAction<{name: string, username: string, email: string}>) => {
       state.addIsLoading = true
       },
@@ -100,6 +98,9 @@ export const usersSlice = createSlice({
       state.addIsLoading = false
       state.addError = action.payload
     },
+    clearAddError: (state) => {
+      state.addError = ''
+    },
     deleteUser: (state, action: PayloadAction<string>) => {
       console.log(action.payload)
       state.users.splice(state.users.findIndex((u) => u.id === action.payload), 1)
@@ -107,6 +108,6 @@ export const usersSlice = createSlice({
   },
 })
 
-export const { deleteUser, addUser, getUserFetch, getUserSuccess, getUserFail, addUserFail, addUserSuccess} = usersSlice.actions
+export const { deleteUser, clearAddError, addUser, getUserFetch, getUserSuccess, getUserFail, clearError, addUserFail, addUserSuccess} = usersSlice.actions
 
 export default usersSlice.reducer
