@@ -22,7 +22,7 @@ function UserList(props: UserListProps) {
         <GetUsersButton />
       </Stack>
       <GetUsersErrorMessage />
-      <Grid container spacing={2}>
+      <Grid data-testid="users-container" container spacing={2}>
         {props.users.map((user: BlogUser) => {
           return <UserCard user={user} key={user.id}></UserCard>;
         })}

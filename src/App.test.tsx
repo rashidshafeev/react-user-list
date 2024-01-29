@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
 import userEvent from '@testing-library/user-event'
 
@@ -36,7 +36,7 @@ test("form input and alerts", async () => {
   await user.click(submit)
   const alertNameTooLong = screen.getByText("Имя не должно превышать 50 символов");
   expect(alertNameTooLong).toBeInTheDocument()
-  
+
   const usernameTextBox = screen.getByPlaceholderText('Имя пользователя');
   await user.type(usernameTextBox, "1");
   expect(usernameTextBox).toHaveValue("1");
@@ -56,13 +56,44 @@ test("form input and alerts", async () => {
   const alertUNameWrong = screen.getByText('Только символы английского алфавита, цифры, символы "_" и "-"');
   expect(alertUNameWrong).toBeInTheDocument()
 
-  const emailTextBox= screen.getByPlaceholderText('john@acme.com');
+  const emailTextBox = screen.getByPlaceholderText('john@acme.com');
   await user.type(emailTextBox, "johnacme.com");
   expect(emailTextBox).toHaveValue("johnacme.com");
   await user.click(submit)
   const alertEmailFormat = screen.getByText("Неверный формат email");
   expect(alertEmailFormat).toBeInTheDocument()
 
-  
+
 });
 
+test("form adding and occupied check", async () => {
+
+  render(<App />);
+  const user = userEvent.setup()
+
+  const submit = screen.getByText("ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ")
+
+
+  const nameTextBox = screen.getByPlaceholderText('Ваше имя');
+  const usernameTextBox = screen.getByPlaceholderText('Имя пользователя');
+  const emailTextBox = screen.getByPlaceholderText('john@acme.com');
+  await user.type(nameTextBox, "Тест1");
+  await user.type(usernameTextBox, "test1");
+  await user.type(emailTextBox, "test1@test1.com");
+  await user.click(submit)
+
+  expect(nameTextBox).toHaveValue("");
+  expect(usernameTextBox).toHaveValue("");
+  expect(emailTextBox).toHaveValue("");
+
+  await user.type(nameTextBox, "Тест1");
+  await user.type(usernameTextBox, "test1");
+  await user.type(emailTextBox, "test1@test1.com");
+  await user.click(submit)
+
+  expect(nameTextBox).toHaveValue("Тест1");
+  expect(usernameTextBox).toHaveValue("test1");
+  expect(emailTextBox).toHaveValue("test1@test1.com");
+
+
+});

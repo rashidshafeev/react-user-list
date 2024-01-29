@@ -51,14 +51,6 @@ function AddUserForm() {
     (state: RootState) => state.users.emailTaken,
   );
 
-  const usernameTakenHandler = (event : React.FormEvent<HTMLInputElement>) => {
-    dispatch(usernameTaken(event.currentTarget.value))
-  }
-
-  const emailTakenHandler = (event : React.FormEvent<HTMLInputElement>) => {
-    dispatch(emailTaken(event.currentTarget.value))
-  }
-
   const AddUserSchema = Yup.object().shape({
     name: Yup.string().max(50, "Имя не должно превышать 50 символов").required("Введите имя").trim(),
     username: Yup.string()
