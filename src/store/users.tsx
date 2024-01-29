@@ -44,6 +44,8 @@ interface usersState {
   error: string;
   addIsLoading: boolean;
   addError: string;
+  usernameTaken: boolean;
+  emailTaken: boolean;
 }
 
 const initialState: usersState = {
@@ -52,6 +54,8 @@ const initialState: usersState = {
   error: "",
   addIsLoading: false,
   addError: "",
+  usernameTaken: false,
+  emailTaken: false,
 };
 
 export const usersSlice = createSlice({
@@ -113,10 +117,26 @@ export const usersSlice = createSlice({
         1,
       );
     },
+    usernameTaken: (state, action: PayloadAction<string>) => {
+      if (state.users.find((u) => u.username === action.payload)) {
+        state.usernameTaken = true
+      } else {
+        state.usernameTaken = false
+      }
+    },
+    emailTaken: (state, action: PayloadAction<string>) => {
+      if (state.users.find((u) => u.email === action.payload)) {
+        state.emailTaken = true
+      } else {
+        state.emailTaken = false
+      }
+    },
   },
 });
 
 export const {
+  usernameTaken,
+  emailTaken,
   deleteUser,
   clearAddError,
   addUser,

@@ -12,7 +12,7 @@ import { RootState } from "../store/index";
 import "./AddUserForm.css";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../store/users";
+import { addUser, usernameTaken, emailTaken } from "../store/users";
 import {
   Card,
   Typography,
@@ -34,20 +34,48 @@ interface Values {
   email: string;
 }
 
-const AddUserSchema = Yup.object().shape({
-  name: Yup.string().max(50, "Слишком длинное имя").required("Введите имя"),
-  username: Yup.string()
-    .min(2, "Слишком короткий юзернейм")
-    .max(50, "Слишком длинный юзернейм")
-    .required("Введите юзернейм"),
-  email: Yup.string().email("Неверный формат email").required("Введите email"),
-});
+
 
 function AddUserForm() {
+
+  
+
   const dispatch = useDispatch();
   const addIsLoading: boolean = useSelector(
     (state: RootState) => state.users.addIsLoading,
   );
+  const usernameTakenBool: boolean = useSelector(
+    (state: RootState) => state.users.usernameTaken,
+  );
+  const emailTakenBool: boolean = useSelector(
+    (state: RootState) => state.users.emailTaken,
+  );
+
+  const usernameTakenHandler = (event : React.FormEvent<HTMLInputElement>) => {
+    dispatch(usernameTaken(event.currentTarget.value))
+  }
+
+  const emailTakenHandler = (event : React.FormEvent<HTMLInputElement>) => {
+    dispatch(emailTaken(event.currentTarget.value))
+  }
+
+  const AddUserSchema = Yup.object().shape({
+    name: Yup.string().max(50, "Имя не должно превышать 50 символов").required("Введите имя").trim(),
+    username: Yup.string()
+      .min(2, "Юзернейм должен быть от 2 до 50 символов")
+      .max(50, "Юзернейм должен быть от 2 до 50 символов")
+      .matches(/^[A-Za-z0-9_-][A-Za-z0-9_-]*$/, 'Только символы английского алфавита, цифры, символы "_" и "-"')
+      .test("username", "Это имя пользователя уже занято", function (username) {
+        dispatch(usernameTaken(username!))
+        return !usernameTakenBool;
+    })
+      .required("Введите юзернейм")
+      .trim(),
+    email: Yup.string().email("Неверный формат email").required("Введите email").test("email", "Этот почтовый адрес уже занят", function (email) {
+      dispatch(emailTaken(email))
+      return !emailTakenBool;
+  }).trim(),
+  });
 
   return (
     <>
@@ -88,6 +116,7 @@ function AddUserForm() {
                       id="name"
                       name="name"
                       placeholder="Ваше имя"
+                      
                     />
                     <ErrorMessage
                       name="name"
@@ -100,6 +129,7 @@ function AddUserForm() {
                       id="username"
                       name="username"
                       placeholder="Имя пользователя"
+                      // onChange={usernameTakenHandler}
                     />
                     <ErrorMessage
                       name="username"
@@ -112,6 +142,7 @@ function AddUserForm() {
                       name="email"
                       placeholder="john@acme.com"
                       type="email"
+                      // onChange={emailTakenHandler}
                     />
                     <ErrorMessage
                       name="email"
