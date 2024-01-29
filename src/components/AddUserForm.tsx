@@ -129,7 +129,6 @@ function AddUserForm() {
                       id="username"
                       name="username"
                       placeholder="Имя пользователя"
-                      // onChange={usernameTakenHandler}
                     />
                     <ErrorMessage
                       name="username"
@@ -142,7 +141,6 @@ function AddUserForm() {
                       name="email"
                       placeholder="john@acme.com"
                       type="email"
-                      // onChange={emailTakenHandler}
                     />
                     <ErrorMessage
                       name="email"
